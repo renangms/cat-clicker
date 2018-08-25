@@ -1,25 +1,75 @@
-var clickCount1 = 0;
-var clickCount2 = 0;
+var cats = [
+    {
+        id: 'cat1',
+        img: 'img/cat1.jpg',
+        name: 'Cat 1',
+        clickCount: 0
+    },
+    {
+        id: 'cat2',
+        img: 'img/cat2.jpg',
+        name: 'Cat 2',
+        clickCount: 0
+    },
+    {
+        id: 'cat3',
+        img: 'img/cat3.jpg',
+        name: 'Cat 3',
+        clickCount: 0
+    },
+    {
+        id: 'cat4',
+        img: 'img/cat4.jpg',
+        name: 'Cat 4',
+        clickCount: 0
+    },
+    {
+        id: 'cat5',
+        img: 'img/cat5.jpg',
+        name: 'Cat 5',
+        clickCount: 0
+    },
+]
 
-var $img1 = $('#cat1 img')
-var $img2 = $('#cat2 img')
+var selectedCat = null;
 
-$(document).ready(function() {
-    $('#cat1').append('<figcaption>Cat 1</figcaption>');
-    $('#cat2').append('<figcaption>Cat 2</figcaption>');
+function getCatById(id) {
+    for (var i = 0; i < cats.length; i++) {
+        var cat = cats[i];
+
+        if (cat.id == id) {
+           return cat;
+       } 
+    }
+
+    return null;
+}
+
+
+$(function() {
+    var catListElem = $('#cat-list');
+
+    for(var i = 0; i < cats.length; i++) {
+        catListElem.append('<li id="' + cats[i].id + '">' + cats[i].name + '</li>')
+    }
 });
 
-function cat1Clicked() {
-    var $countElem = $('#click-count1');
-    clickCount1 += 1;
-    $countElem.text('Click count: ' + clickCount1);
-};
+$(function() {
+    $("#cat-list li").click(function(e) {
+        var id = e.target.id;
 
-function cat2Clicked() {
-    var $countElem = $('#click-count2');
-    clickCount2 += 1;
-    $countElem.text('Click count: ' + clickCount2);
-};
+        selectedCat = getCatById(id);
 
-$img1.click(cat1Clicked);
-$img2.click(cat2Clicked);
+        $('#cat img').attr('src', selectedCat.img);
+        $('#cat figcaption').text(selectedCat.name);
+        $('#click-count').text('Click count: ' + selectedCat.clickCount);
+    });
+});
+
+$(function() {
+    $("#cat img").click(function(e) {
+        selectedCat.clickCount += 1;
+        
+        $('#click-count').text('Click count: ' + selectedCat.clickCount);
+    });
+});
